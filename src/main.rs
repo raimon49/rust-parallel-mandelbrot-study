@@ -24,7 +24,9 @@ fn parse_pair<T: FromStr>(s: &str, separator: char) -> Option<(T, T)> {
         None => None,
         Some(index) => {
             match (T::from_str(&s[..index]), T::from_str(&s[index + 1..])) {
+                // find(separator)した結果、区切り文字で分割してどちらも期待する型にマッチしてOだった場合
                 (Ok(l), Ok(r)) => Some((l, r)),
+                // 上記マッチパターンに入らなかったワイルドカードパターン_
                 _ => None
             }
         }
