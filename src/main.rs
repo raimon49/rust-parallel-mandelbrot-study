@@ -1,6 +1,10 @@
 extern crate num;
+extern crate image;
 use num::Complex;
 use std::str::FromStr;
+use image::ColorType;
+use image::png::PNGEncoder;
+use std::fs::File;
 
 #[allow(dead_code)]
 /// `limit` を繰り返しの上限として、`c` がマンデルブロ集合に含まれるかを判定する
@@ -91,4 +95,23 @@ fn render(pixels: &mut [u8],
             };
         }
     }
+}
+
+/// 大きさが `bounds` で指定されたバッファ `pixels` を `filename` で指定されたファイルに書き出す。
+fn write_image(filename: &str, pixels: &[u8], bounds: (usize, usize))
+    -> Result<(), std::io::Error>
+{
+    // 以下の省略表記が let output = File::create(filename)?;
+    // let output = match File::create(filename) {
+    //     Ok(f) => { f }
+    //     Err(e) => { return Err(e); }
+    // };
+    let output = File::create(filename)?;
+
+    let encoder = PNGEncoder::new(output);
+        encoder.encode(&pixels,
+                       bounds.0 as u32, bounds.1 as u32,
+                       ColorType::Gray(8))?;
+
+    Ok(()) // 引数の () はユニット型で C/C++ の void と似た概念
 }
