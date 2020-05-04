@@ -32,11 +32,9 @@ fn main() {
     // マクロ呼び出しvec![v; n]で長さnのベクタを作り、vで初期化
     let mut pixels = vec![0; bounds.0 * bounds.1];
 
-    render(&mut pixels, bounds, upper_left, lower_right);
 
     // 並列処理化のためコメントアウトして下の処理と置き換え
-    // write_image(&args[1], &pixels, bounds)
-    //     .expect("error writing PNG file");
+    // render(&mut pixels, bounds, upper_left, lower_right);
     let threads = 8;
     let rows_per_band = bounds.1 / threads + 1;
     {
@@ -65,6 +63,9 @@ fn main() {
             }
         });
     }
+
+    write_image(&args[1], &pixels, bounds)
+        .expect("error writing PNG file");
 }
 
 #[allow(dead_code)]
