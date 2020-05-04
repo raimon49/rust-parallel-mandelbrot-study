@@ -48,6 +48,21 @@ fn test_parse_pair() {
     assert_eq!(parse_pair::<f64>("0.5x1.5", 'x'), Some((0.5, 1.5)));
 }
 
+fn parse_complex(s: &str) -> Option<Complex<f64>> {
+    match parse_pair(s, ',') {
+        Some((re, im)) => Some(Complex { re, im }),
+        None => None
+    }
+}
+
+#[test]
+fn test_parse_complex() {
+    assert_eq!(parse_complex("1.25,-0.0625"),
+               Some(Complex { re: 1.25, im: -0.0625}));
+    assert_eq!(parse_complex(",-0.0625)"),
+               None);
+}
+
 /// 出力される画像のピクセル位置を取り、対応する複素平面上の点を返す。
 /// `bounds` は出力画像の幅と高さをピクセル単位で与える。
 /// `pixel` は画像上の特定ピクセルを (行, 列) ペアの形で指定する。
