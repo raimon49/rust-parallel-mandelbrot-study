@@ -106,6 +106,7 @@ fn write_image(filename: &str, pixels: &[u8], bounds: (usize, usize))
     //     Ok(f) => { f }
     //     Err(e) => { return Err(e); }
     // };
+    // 注) ?演算子はResultを返す関数の中で使う。 main関数には返り値が無いのでmain関数の中では使えない。
     let output = File::create(filename)?;
 
     let encoder = PNGEncoder::new(output);
