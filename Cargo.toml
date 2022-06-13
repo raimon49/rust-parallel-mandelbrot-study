@@ -11,6 +11,7 @@ num = "0.1.27"
 image = "0.13.0"
 crossbeam = "0.4.1"
 crossbeam-utils = "0.8.7"
+crossbeam-channel = "0.4.4"
 
 # [build.release]
 # # リリースビルドでデバッグシンボルを有効にしたい時に指定
